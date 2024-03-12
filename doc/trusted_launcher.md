@@ -16,7 +16,7 @@ The high-level flow is as follows:
 
 7. Trusted Container Launcher
 
-  7.1 In the secure boot mode, the image is attested locally.
+  - 7.1 In the secure boot mode, the image is attested locally.
   
   7.1.1 The image storage not only stores the images but also the image's golden value.
   
@@ -24,7 +24,7 @@ The high-level flow is as follows:
 
   7.1.3 If it matches, the Trusted Container Launcher also triggers the measurement of the container loading process, and sends eventlog to remote attestor.
 
-  7.2 In remote attestation mode, Trusted Container Launcher sends the report (image golden value) to the remote attestor. 
+  - 7.2 In remote attestation mode, Trusted Container Launcher sends the report (image golden value) to the remote attestor. 
       
   7.2.1 The remote attestor requests for image storage service for golden value of the image, and attest from here. 
       
