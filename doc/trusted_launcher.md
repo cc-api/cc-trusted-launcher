@@ -1,5 +1,7 @@
 # Design for Trusted Container Launcher
 
+## Workflow
+
 The high-level flow is as follows:
 
 1. The client requests K8S to create a confidential container
@@ -40,4 +42,93 @@ The high-level flow is as follows:
 
 11. The runc is invoked to execute the container.
 
+
+
+
+The following sequence diagram shows the flow of actions for starting a confidential container through the Trusted Container Launcher.
+
+```mermaid
+sequenceDiagram
+    participant kubelet
+    participant containerd
+    participant shim
+    participant launcher
+    participant attestor
+    participant image-storage
+
+    autonumber
+    kubelet-->>image-storage: Pull image and golden value
+    kubelet-->>containerd: Create container
+    launcher->launcher: start integrity measurement of event
+    Note right of containerd: Save container metadata
+    containerd-->>kubelet: Container ID
+
+    kubelet-->>containerd: Create task
+
+    %% Start shim
+    containerd-->shim: Prepare bundle
+    containerd->>shim: Execute binary: containerd-shim-runc-v2 start
+    launcher-->>image-storage: start integrity measurement of event
+    shim->shim: Start TTRPC server
+    shim-->>containerd: Respond with address: unix://containerd/container.sock
+    containerd-->>shim: Create TTRPC client
+
+    %% Schedule task
+
+    Note right of containerd: Schedule new task
+
+    containerd->>shim: TaskService.CreateTaskRequest
+    launcher->launcher: start integrity measurement of event
+    shim-->>containerd: Task PID
+    containerd-->>kubelet: Task ID
+
+    %% Start task
+
+    kubelet->>containerd: Start task
+
+    containerd->>shim: TaskService.StartRequest
+    shim-->>containerd: OK
+    launcher->>attestor: send measurements
+
+    %% Wait task
+
+    kubelet->>containerd: Wait task
+
+    containerd->>shim: TaskService.WaitRequest
+    Note right of shim: Block until task exits
+    shim-->>containerd: Exit status
+
+    containerd-->>kubelet: OK
+
+    Note over kubelet,shim: Other task requests (Kill, Pause, Resume, CloseIO, Exec, etc)
+
+    %% Kill signal
+
+    opt Kill task
+
+    kubelet->>containerd: Kill task
+
+    containerd->>shim: TaskService.KillRequest
+    shim-->>containerd: OK
+
+    containerd-->>kubelet: OK
+
+    end
+
+    %% Delete task
+
+    kubelet->>containerd: Task Delete
+
+    containerd->>shim: TaskService.DeleteRequest
+    shim-->>containerd: Exit information
+
+    containerd->>shim: TaskService.ShutdownRequest
+    shim-->>containerd: OK
+
+    containerd-->shim: Close client
+    containerd->>shim: Execute binary: containerd-shim-runc-v2 delete
+    containerd-->shim: Delete bundle
+
+    containerd-->>kubelet: Exit code
+```
 
