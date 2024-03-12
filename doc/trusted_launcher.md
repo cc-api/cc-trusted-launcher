@@ -68,7 +68,7 @@ sequenceDiagram
     %% Start shim
     containerd-->shim: Prepare bundle
     containerd->>shim: Execute binary: containerd-shim-runc-v2 start
-    launcher-->>image-storage: start integrity measurement of event
+    launcher-->>attestor: send integrity measurement of event
     shim->shim: Start TTRPC server
     shim-->>containerd: Respond with address: unix://containerd/container.sock
     containerd-->>shim: Create TTRPC client
@@ -79,6 +79,9 @@ sequenceDiagram
 
     containerd->>shim: TaskService.CreateTaskRequest
     launcher->launcher: start integrity measurement of event
+    launcher-->>attestor: send integrity measurement of event
+    attestor-->image-storage: request image's golden value
+    attestor->attestor: verify the image against the golden value
     shim-->>containerd: Task PID
     containerd-->>kubelet: Task ID
 
