@@ -18,7 +18,7 @@ The high-level flow is as follows:
 
   - 7.1 In the secure boot mode, the image is attested locally.
   
-  -- 7.1.1 The image storage not only stores the images but also the image's golden value.
+    -- 7.1.1 The image storage not only stores the images but also the image's golden value.
   
   -- 7.1.2 The Trusted Container Launcher attests the image's golden value against the measurement, if matches, it proceeds, if not, it returns "NOT verified".
 
