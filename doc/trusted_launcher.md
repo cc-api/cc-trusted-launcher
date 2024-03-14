@@ -1,5 +1,37 @@
 # Design for Trusted Container Launcher
 
+## Components of Trusted Container Launcher
+
+### 1. kubelet
+
+1. extend `startContainer` method for getting integrity measurement eventlog the start container event.
+
+   The event should have container ID and POD ID associated.  
+
+   `startContainer` is defined in `pkg/kubelet/kuberuntime/kuberuntime_container.go`.
+
+   This method calls the CRI (Container Runtime Interface) to create and start containers.
+
+
+2. extend `pullImage` method for attestation of the image against golden value.
+
+   
+   
+
+
+
+containerd
+
+trusted container launcher 
+
+launcher
+
+attestor
+
+image-storage
+
+    
+
 ## Workflow
 
 The high-level flow is as follows:
