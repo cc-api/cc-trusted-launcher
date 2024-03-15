@@ -19,20 +19,48 @@
 
    The pullImage method encapsulates the details of interacting with the container runtime, utilizing Kubernetes' Container Runtime Interface (CRI) to pull trusted images from trusted source.
 
-   
-   
+  
 
 ### 2. containerd
 
+1. extend the `Run` function, so that it returns detailed information about container start commands as a message to kubelet.
+    
+
 ### 3. launcher 
+
+1. received the integrity measurement eventlog and send it to attestor
+
+2. verify image against its golden value,
+
+    and add this verification cmd into integrity measurement eventlog
+
+    send it along with the golden value to attestor
+
 
 ### 4. attestor
 
+either remote or local, supports two functions:
+
+1. attestation for image/artifacts
+
+2. attestation for eventlogs
+
+
+
 ### 5. image-storage
 
-1. extend a field in the meta data for golden value
+1. extend a field in the meta data for golden value, follow SVID (TBD)
 
-2. follow the RA-TLS protocol 
+2. follow the RA-TLS protocol
+
+
+### 6. k8s control plane
+
+1. add a new operator as plugin for confidential container specific scheduling 
+  
+3. add Custom Resource Definitions (CRDs) for defining the confidential container
+
+
 
     
 
