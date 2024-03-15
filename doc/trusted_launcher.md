@@ -10,26 +10,29 @@
 
    `startContainer` is defined in `pkg/kubelet/kuberuntime/kuberuntime_container.go`.
 
-   This method calls the CRI (Container Runtime Interface) to create and start containers.
+   This method calls the Container Runtime Interface (CRI) to create and start containers.
 
 
 2. extend `pullImage` method for attestation of the image against golden value.
 
+   The logic for pulling container images is defined in `pkg/kubelet/kuberuntime/kuberuntime_manager.go`.
+
+   The pullImage method encapsulates the details of interacting with the container runtime, utilizing Kubernetes' Container Runtime Interface (CRI) to pull trusted images from trusted source.
+
    
    
-   
 
+### 2. containerd
 
+### 3. launcher 
 
-containerd
+### 4. attestor
 
-trusted container launcher 
+### 5. image-storage
 
-launcher
+1. extend a field in the meta data for golden value
 
-attestor
-
-image-storage
+2. follow the RA-TLS protocol 
 
     
 
