@@ -23,3 +23,24 @@ The Integrity can be examined from three perspectives:
     is valid, consistent, and verifiable
 
 For integrity to be maintained on a system, controls must be in place to restrict access to data, objects, and resources. Maintaining and validating object integrity across storage, transport, and processing requires numerous variations of controls and oversight.
+
+
+Confidentiality and integrity depend on each other. Without object integrity (in other words, the inability of an object to be modified without permission), confidentiality cannot be maintained.
+
+
+Integrity is dependent on confidentiality and access control. Concepts, conditions, and aspects of integrity include the following:
+ 
+ - Accuracy: Being correct and precise
+
+ - Truthfulness: Being a true reflection of reality
+
+ - Validity: Being factually or logically sound
+
+ - Accountability: Being responsible or obligated for actions and results
+
+ - Responsibility: Being in charge or having control over something or someone Completeness: Having all necessary components or parts
+
+ - Comprehensiveness: Being complete in scope; the full inclusion of all needed elements
+
+
+This work is mainly focused on using integrity measurement of a confidential computing execution environment. 
